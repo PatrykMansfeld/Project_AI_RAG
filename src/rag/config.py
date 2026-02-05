@@ -7,6 +7,14 @@ class Config:
     llm_model: str = os.getenv("LLM_MODEL", "llama3.1")
     embedding_model: str = os.getenv("EMBEDDING_MODEL", "nomic-embed-text")
 
+    system_prompt_mode: str = os.getenv("SYSTEM_PROMPT_MODE", "strict")  # strict|friendly|concise
+    guardrails_enabled: bool = os.getenv("GUARDRAILS", "true").lower() == "true"
+    # Wybór wariantu promptu oraz włączenie prostych guardrails
+
+    eval_use_judge: bool = os.getenv("EVAL_USE_JUDGE", "false").lower() == "true"
+    judge_model: str = os.getenv("JUDGE_MODEL", llm_model)
+    # Parametry ewaluacji LLM-judge
+
     data_dir: str = os.getenv("DATA_DIR", "data/docs")
     top_k: int = int(os.getenv("TOP_K", "5"))
     chunk_size: int = int(os.getenv("CHUNK_SIZE", "500"))

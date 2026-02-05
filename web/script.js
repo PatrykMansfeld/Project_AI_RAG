@@ -112,7 +112,8 @@ evalRunBtn.addEventListener('click', async () => {
     evalRunBtn.disabled = true;
     const res = await postJSON('/api/eval', { qa_path: qaPath });
     const summary = {
-      accuracy: res.accuracy,
+      keyword_accuracy: res.keyword_accuracy,
+      judge_accuracy: res.judge_accuracy,
       count: res.count,
     };
     evalOut.textContent = JSON.stringify(summary, null, 2);

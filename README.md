@@ -7,7 +7,7 @@ Minimalny chatbot RAG z lokalnym Ollama, cytuje źródła i ma prosty interfejs 
 - Ładuje dokumenty `.txt`/`.md` z folderu `data/docs`, tnie je na chunki i wektoryzuje (embeddingi Ollama).
 - Dopasowuje kontekst do pytania: semantycznie (embeddingi, domyślnie) lub leksykalnie (BM25, opcjonalnie).
 - Buduje prompt z wybranymi fragmentami i **cytuje źródła** w formacie `[source: ścieżka#chunk-id]`.
-- Generuje odpowiedź LLM (domyślnie `llama3.1`), ograniczając się do kontekstu.
+- Generuje odpowiedź LLM (domyślnie `llama3.1`), ograniczając się do kontekstu i z prostymi guardrails (odmowa przy braku kontekstu / brak zmyślania źródeł).
 - Oferuje analizę korpusu (`analyze`) i prostą ewaluację dokładności (`eval`).
 - Potrafi generować artykuły Markdown (`generate`) i zapisywać je do `data/docs/gen`.
 - Ma prosty frontend WWW (Flask) do zadawania pytań i przebudowy indeksu.
@@ -93,8 +93,12 @@ deactivate
 - `OLLAMA_HOST` (domyślnie `http://localhost:11434`)
 - `LLM_MODEL` (domyślnie `llama3.1`)
 - `EMBEDDING_MODEL` (domyślnie `nomic-embed-text`)
+- `SYSTEM_PROMPT_MODE` = `strict` | `friendly` | `concise` (wariant tonu i rygoru)
+- `GUARDRAILS` = `true` | `false` (prostą odmowę/anti-hallucination pozostaw)
 - `RETRIEVAL_METHOD` = `embedding` | `bm25` (wymaga `rank-bm25`)
 - `TOP_K`, `CHUNK_SIZE`, `CHUNK_OVERLAP`, `SCORE_THRESHOLD`, `FEW_SHOT`, `TEMPERATURE`
+- `EVAL_USE_JUDGE` = `true` | `false` (LLM-judge w ewaluacji)
+- `JUDGE_MODEL` (domyślnie taki jak `LLM_MODEL`)
 
 ## Struktura Projektu
 

@@ -1,12 +1,20 @@
 from typing import Any, Dict, List
 
 
-def system_prompt() -> str:
-    return (
-        "Jesteś precyzyjnym asystentem. Odpowiadaj tylko na podstawie kontekstu. "
-        "Cytuj źródła w formacie [source: ścieżka#chunk-id]. Gdy brak informacji—powiedz, że nie wiesz."
+def system_prompt(mode: str = "strict", with_guardrails: bool = True) -> str:
+    base = {
+        "strict": "Jesteś rygorystycznym asystentem. Odpowiadaj tylko na podstawie kontekstu. Cytuj źródła w formacie [source: ścieżka#chunk-id]. Jeśli w kontekście brakuje informacji, powiedz wprost, że nie wiesz.",
+        "friendly": "Jesteś uprzejmym asystentem. Odpowiadaj zwięźle na podstawie kontekstu i zawsze cytuj źródła [source: ścieżka#chunk-id]. Jeśli czegoś nie ma w kontekście, przyznaj to.",
+        "concise": "Jesteś bardzo zwięzłym asystentem. Udzielaj krótkich odpowiedzi wyłącznie z kontekstu. Cytuj źródła [source: ścieżka#chunk-id]. Gdy brak danych, napisz, że brak informacji."
+    }.get(mode, "strict")
+    if not with_guardrails:
+        return base
+    rails = (
+        "Guardrails: (1) Nie odpowiadaj na pytania niezwiązane z kontekstem. "
+        "(2) Nie zmyślaj faktów ani źródeł. (3) Jeśli kontekst jest pusty lub za słaby, odpowiedz 'Brak informacji w dokumentach'."
     )
-    # Zasady dla modelu
+    return base + " " + rails
+    # Warianty system promptu + proste guardrails
 
 
 def few_shot() -> List[Dict[str, str]]:
@@ -21,9 +29,14 @@ def user_prompt(question: str, passages: List[Dict[str, Any]]) -> str:
     parts = []
     for p in passages:
         parts.append(f"[source: {p['source']}#chunk-{p['chunk_id']}]\n{p['text']}")
-    ctx = "\n\n".join(parts)
-    return f"Kontekst:\n\n{ctx}\n\nPytanie: {question}\n\nOdpowiedz zwięźle po polsku z cytowaniem źródeł."
-    # Łączy konteksty i pytanie
+    ctx = "\n\n".join(parts) if parts else "(brak kontekstu)"
+    return (
+        f"Kontekst:\n\n{ctx}\n\n"
+        f"Zasady odpowiedzi: cytuj źródła, nie wymyślaj faktów, jeśli brak danych napisz 'Brak informacji w dokumentach'.\n"
+        f"Pytanie: {question}\n\n"
+        f"Udziel zwięzłej odpowiedzi po polsku."
+    )
+    # Łączy konteksty, pytanie i przypomina o guardrails
 
 
 def article_system_prompt() -> str:

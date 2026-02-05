@@ -4,63 +4,96 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RAG Chatbot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
+  <div class="bg"></div>
   <div class="container">
-    <h1>RAG Chatbot (Ollama)</h1>
-
-    <div class="controls">
-      <button id="reindex">Przebuduj indeks</button>
-      <span id="status"></span>
-    </div>
-
-    <div class="chat">
-      <div id="messages"></div>
-      <div class="input-row">
-        <input id="question" type="text" placeholder="Zadaj pytanie..." />
-        <button id="send">Wyślij</button>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Ollama · RAG</p>
+        <h1>RAG Chatbot</h1>
+        <p class="lede">Zadaj pytanie, zobacz źródła, przeanalizuj korpus i przetestuj jakość odpowiedzi.</p>
       </div>
-    </div>
-
-    <div class="sources">
-      <h2>Źródła</h2>
-      <ul id="sources"></ul>
-    </div>
-
-    <div class="analysis">
-      <h2>Analiza korpusu</h2>
-      <button id="analyze">Pokaż statystyki</button>
-      <pre id="analysisOut" class="output"></pre>
-    </div>
-
-    <div class="eval">
-      <h2>Ewaluacja QA</h2>
-      <div class="row">
-        <label for="evalQaPath">Ścieżka do QA JSONL:</label>
-        <input id="evalQaPath" type="text" value="data/eval/qa.jsonl" />
-        <button id="evalRun">Uruchom ewaluację</button>
+      <div class="hero-actions">
+        <button id="reindex" class="primary">Przebuduj indeks</button>
+        <span id="status" class="status"></span>
       </div>
-      <pre id="evalOut" class="output"></pre>
-    </div>
+    </header>
 
-    <div class="generate">
-      <h2>Generowanie artykułów</h2>
-      <div class="row">
-        <label for="genTopic">Temat:</label>
-        <input id="genTopic" type="text" placeholder="np. Historia Krakowa" />
-      </div>
-      <div class="row">
-        <label for="genCount">Liczba:</label>
-        <input id="genCount" type="number" value="1" min="1" />
-        <label for="genMinWords">Min. słów:</label>
-        <input id="genMinWords" type="number" value="400" min="100" />
-        <label for="genStyle">Styl:</label>
-        <input id="genStyle" type="text" value="encyklopedyczny" />
-        <button id="genRun">Generuj</button>
-      </div>
-      <ul id="genOut"></ul>
-    </div>
+    <section class="grid">
+      <article class="card chat">
+        <div class="card-head">
+          <div>
+            <p class="label">Czat</p>
+            <h2>Zadawaj pytania</h2>
+          </div>
+        </div>
+        <div id="messages" class="messages"></div>
+        <div class="input-row">
+          <input id="question" type="text" placeholder="Zadaj pytanie..." />
+          <button id="send" class="primary">Wyślij</button>
+        </div>
+        <div class="sources">
+          <div class="card-subhead">
+            <h3>Źródła</h3>
+          </div>
+          <ul id="sources"></ul>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <p class="label">Analiza</p>
+            <h2>Statystyki korpusu</h2>
+          </div>
+          <button id="analyze" class="ghost">Pokaż statystyki</button>
+        </div>
+        <pre id="analysisOut" class="output"></pre>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <p class="label">Ewaluacja</p>
+            <h2>QA JSONL</h2>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="evalQaPath">Ścieżka do QA:</label>
+          <input id="evalQaPath" type="text" value="data/eval/qa.jsonl" />
+          <button id="evalRun" class="primary">Uruchom ewaluację</button>
+        </div>
+        <pre id="evalOut" class="output"></pre>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <div>
+            <p class="label">Generowanie</p>
+            <h2>Artykuły do korpusu</h2>
+          </div>
+        </div>
+        <div class="form-grid">
+          <label for="genTopic">Temat</label>
+          <input id="genTopic" type="text" placeholder="np. Historia Krakowa" />
+          <label for="genCount">Liczba</label>
+          <input id="genCount" type="number" value="1" min="1" />
+          <label for="genMinWords">Min. słów</label>
+          <input id="genMinWords" type="number" value="400" min="100" />
+          <label for="genStyle">Styl</label>
+          <input id="genStyle" type="text" value="encyklopedyczny" />
+        </div>
+        <div class="actions">
+          <button id="genRun" class="primary">Generuj</button>
+        </div>
+        <ul id="genOut" class="list"></ul>
+      </article>
+    </section>
   </div>
 
   <script src="/static/script.js"></script>

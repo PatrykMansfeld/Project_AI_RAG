@@ -78,12 +78,19 @@ class SimpleRAG:
 
     def answer(self, question: str) -> Dict[str, Any]:
         ctx = self.retrieve(question)
+        # Prosta szyna guardrails: jeśli brak kontekstu, zwróć komunikat
+        if not ctx:
+            return {"answer": "Brak informacji w dokumentach.", "sources": []}
+
         client = ollama.Client(host=self.cfg.ollama_host)
-        messages = [{"role": "system", "content": system_prompt()}]
+        messages = [{
+            "role": "system",
+            "content": system_prompt(self.cfg.system_prompt_mode, with_guardrails=self.cfg.guardrails_enabled),
+        }]
         if self.cfg.few_shot:
             messages.extend(few_shot())
         messages.append({"role": "user", "content": user_prompt(question, ctx)})
         res = client.chat(model=self.cfg.llm_model, messages=messages, options={"temperature": self.cfg.temperature})
         ans = res["message"]["content"]  # type: ignore[index]
         return {"answer": ans, "sources": ctx}
-        # Buduje prompt i zwraca odpowiedź
+        # Buduje prompt z wariantami i guardrails
