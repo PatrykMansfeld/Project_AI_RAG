@@ -11,7 +11,7 @@ class Config:
     guardrails_enabled: bool = os.getenv("GUARDRAILS", "true").lower() == "true"
     # Wybór wariantu promptu oraz włączenie prostych guardrails
 
-    eval_use_judge: bool = os.getenv("EVAL_USE_JUDGE", "false").lower() == "true"
+    eval_use_judge: bool = os.getenv("EVAL_USE_JUDGE", "true").lower() == "true"
     judge_model: str = os.getenv("JUDGE_MODEL", llm_model)
     # Parametry ewaluacji LLM-judge
 
@@ -25,3 +25,7 @@ class Config:
     temperature: float = float(os.getenv("TEMPERATURE", "0.2"))
     few_shot: bool = os.getenv("FEW_SHOT", "true").lower() == "true"
     # Parametry aplikacji z ENV
+
+    auto_log_qa: bool = os.getenv("AUTO_LOG_QA", "true").lower() == "true"
+    qa_log_path: str = os.getenv("QA_LOG_PATH", "data/eval/qa.jsonl")
+    # Automatyczny zapis rozmów do pliku QA (jsonl)

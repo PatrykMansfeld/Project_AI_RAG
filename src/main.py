@@ -17,6 +17,8 @@ def main():
     sub.add_parser("analyze")
     p_ev = sub.add_parser("eval")
     p_ev.add_argument("--qa", default="data/eval/qa.jsonl")
+    p_ev.add_argument("--out", default=None, help="Ścieżka do zapisu raportu JSON")
+    p_ev.add_argument("--use-judge", action="store_true", help="Wymuś LLM-judge (nadpisuje ENV)")
 
     p_gen = sub.add_parser("generate")
     p_gen.add_argument("--topic", required=True, help="Temat artykułu")
@@ -49,7 +51,9 @@ def main():
     elif args.cmd == "analyze":
         print(json.dumps(analyze_corpus(cfg), ensure_ascii=False, indent=2))
     elif args.cmd == "eval":
-        print(json.dumps(evaluate(cfg, args.qa), ensure_ascii=False, indent=2))
+        if args.use_judge:
+            cfg.eval_use_judge = True
+        print(json.dumps(evaluate(cfg, args.qa, args.out), ensure_ascii=False, indent=2))
     elif args.cmd == "generate":
         generate_articles(cfg, topic=args.topic, count=args.count, min_words=args.min_words, style=args.style)
     else:

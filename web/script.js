@@ -8,8 +8,12 @@ const reindexBtn = document.getElementById('reindex');
 const analyzeBtn = document.getElementById('analyze');
 const analysisOut = document.getElementById('analysisOut');
 const evalQaPathEl = document.getElementById('evalQaPath');
+const evalUseJudgeEl = document.getElementById('evalUseJudge');
+const evalOutPathEl = document.getElementById('evalOutPath');
 const evalRunBtn = document.getElementById('evalRun');
 const evalOut = document.getElementById('evalOut');
+const promptModeEl = document.getElementById('promptMode');
+const guardrailsEl = document.getElementById('guardrails');
 const genTopicEl = document.getElementById('genTopic');
 const genCountEl = document.getElementById('genCount');
 const genMinWordsEl = document.getElementById('genMinWords');
@@ -66,7 +70,11 @@ sendBtn.addEventListener('click', async () => {
   questionEl.value = '';
   try {
     statusEl.textContent = 'Myślę...';
-    const res = await postJSON('/api/chat', { question: q });
+    const res = await postJSON('/api/chat', {
+      question: q,
+      prompt_mode: promptModeEl.value,
+      guardrails: guardrailsEl.checked,
+    });
     addMessage(res.answer, 'assistant');
     sourcesEl.innerHTML = '';
     (res.sources || []).forEach(s => {
@@ -107,10 +115,11 @@ analyzeBtn.addEventListener('click', async () => {
 
 evalRunBtn.addEventListener('click', async () => {
   const qaPath = evalQaPathEl.value.trim() || 'data/eval/qa.jsonl';
+  const outPath = evalOutPathEl.value.trim() || null;
   try {
     statusEl.textContent = 'Uruchamiam ewaluację...';
     evalRunBtn.disabled = true;
-    const res = await postJSON('/api/eval', { qa_path: qaPath });
+    const res = await postJSON('/api/eval', { qa_path: qaPath, use_judge: evalUseJudgeEl.checked, out_path: outPath });
     const summary = {
       keyword_accuracy: res.keyword_accuracy,
       judge_accuracy: res.judge_accuracy,

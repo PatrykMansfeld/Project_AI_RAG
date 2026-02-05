@@ -54,6 +54,11 @@ def api_chat():
     q = str(data.get("question", "")).strip()
     if not q:
         return jsonify({"error": "question is required"}), 400
+    # Konfigurowalne parametry runtime z frontendu
+    rag.cfg.system_prompt_mode = str(data.get("prompt_mode", rag.cfg.system_prompt_mode))
+    rag.cfg.guardrails_enabled = bool(data.get("guardrails", rag.cfg.guardrails_enabled))
+    rag.cfg.few_shot = bool(data.get("few_shot", rag.cfg.few_shot))
+
     ensure_index()
     res = rag.answer(q)
     return jsonify({
@@ -74,8 +79,12 @@ def api_analyze():
 def api_eval():
     data: Dict[str, Any] = request.get_json(force=True) or {}
     qa_path = str(data.get("qa_path", "data/eval/qa.jsonl"))
+    out_path = data.get("out_path")
+    use_judge = data.get("use_judge")
+    if use_judge is not None:
+        cfg.eval_use_judge = bool(use_judge)
     try:
-        res = evaluate(cfg, qa_path)
+        res = evaluate(cfg, qa_path, out_path)
         return jsonify(res)
     except Exception as e:
         return jsonify({"error": str(e)}), 400

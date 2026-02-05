@@ -66,11 +66,17 @@ python src\main.py generate --topic "Sieci neuronowe" --count 2 --min_words 600 
 python src\main.py index
 ```
 
-6) (Opcja) Analiza i ewaluacja:
+6) (Opcja) Analiza i ewaluacja (z raportem i sędzią LLM + odpowiedź referencyjna):
 
 ```bat
 python src\main.py analyze
-python src\main.py eval --qa data\eval\qa.jsonl
+python src\main.py eval --qa data\eval\qa.jsonl --out data\eval\report.json --use-judge
+```
+
+Format `qa.jsonl` obsługuje pola:
+
+```json
+{ "question": "...", "expected_keywords": ["..."], "expected_answer": "opcjonalna pełna odpowiedź referencyjna" }
 ```
 
 Aby zakończyć środowisko:
@@ -99,6 +105,8 @@ deactivate
 - `TOP_K`, `CHUNK_SIZE`, `CHUNK_OVERLAP`, `SCORE_THRESHOLD`, `FEW_SHOT`, `TEMPERATURE`
 - `EVAL_USE_JUDGE` = `true` | `false` (LLM-judge w ewaluacji)
 - `JUDGE_MODEL` (domyślnie taki jak `LLM_MODEL`)
+- `AUTO_LOG_QA` = `true` | `false` (automatyczny zapis pytań/odpowiedzi do QA JSONL)
+- `QA_LOG_PATH` (domyślnie `data/eval/qa.jsonl`)
 
 ## Struktura Projektu
 

@@ -32,6 +32,19 @@
             <h2>Zadawaj pytania</h2>
           </div>
         </div>
+        <div class="form-row compact">
+          <label for="promptMode">Ton:</label>
+          <select id="promptMode">
+            <option value="strict">Rygorystyczny</option>
+            <option value="friendly">Uprzejmy</option>
+            <option value="concise">Zwięzły</option>
+          </select>
+          <label class="switch">
+            <input type="checkbox" id="guardrails" checked />
+            <span class="slider"></span>
+            <span class="switch-label">Guardrails</span>
+          </label>
+        </div>
         <div id="messages" class="messages"></div>
         <div class="input-row">
           <input id="question" type="text" placeholder="Zadaj pytanie..." />
@@ -66,6 +79,13 @@
         <div class="form-row">
           <label for="evalQaPath">Ścieżka do QA:</label>
           <input id="evalQaPath" type="text" value="data/eval/qa.jsonl" />
+          <label class="switch">
+            <input type="checkbox" id="evalUseJudge" checked />
+            <span class="slider"></span>
+            <span class="switch-label">LLM Judge</span>
+          </label>
+          <label for="evalOutPath">Zapisz raport:</label>
+          <input id="evalOutPath" type="text" placeholder="np. data/eval/report.json" />
           <button id="evalRun" class="primary">Uruchom ewaluację</button>
         </div>
         <pre id="evalOut" class="output"></pre>

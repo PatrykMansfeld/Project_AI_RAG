@@ -14,7 +14,7 @@ except Exception:
 from .config import Config
 from .embeddings import EmbeddingClient
 from .vector_store import VectorStore
-from .utils import word_tokenize, chunk_text
+from .utils import word_tokenize, chunk_text, extract_keywords, append_qa_log
 from .prompts import system_prompt, few_shot, user_prompt
 
 
@@ -92,5 +92,9 @@ class SimpleRAG:
         messages.append({"role": "user", "content": user_prompt(question, ctx)})
         res = client.chat(model=self.cfg.llm_model, messages=messages, options={"temperature": self.cfg.temperature})
         ans = res["message"]["content"]  # type: ignore[index]
+        # Auto-log QA (question + auto keywords + full answer as reference)
+        if self.cfg.auto_log_qa:
+            kws = extract_keywords(question + " " + ans)
+            append_qa_log(self.cfg.qa_log_path, question, kws, ans)
         return {"answer": ans, "sources": ctx}
         # Buduje prompt z wariantami i guardrails
