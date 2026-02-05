@@ -32,7 +32,6 @@ pip install -r requirements.txt
 2) Skonfiguruj Ollama i pobierz modele (raz):
 
 ```bat
-set OLLAMA_HOST=http://localhost:11434
 ollama pull llama3.1
 ollama pull nomic-embed-text
 ```
