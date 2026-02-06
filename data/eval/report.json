@@ -1,0 +1,39 @@
+{
+  "count": 2,
+  "keyword_accuracy": 0.5,
+  "judge_accuracy": 1.0,
+  "results": [
+    {
+      "question": "Co to jest RAG?",
+      "keywords": [
+        "retrieval",
+        "generowanie"
+      ],
+      "expected_answer": null,
+      "answer": "Brak informacji w dokumentach.",
+      "keywords_precision": 0.0,
+      "keywords_recall": 0.0,
+      "keywords_f1": 0.0,
+      "judge_score": 1.0
+    },
+    {
+      "question": "czym jest esport",
+      "keywords": [
+        "esport",
+        "czym",
+        "dyscyplina",
+        "sportowa",
+        "której",
+        "uczestnicy",
+        "rywalizują",
+        "sobą"
+      ],
+      "expected_answer": "Esport to dyscyplina sportowa w której uczestnicy rywalizują ze sobą w grach komputerowych lub gier wideo, podobnie jak tradycyjne sporty takie jak piłka nożna czy koszykówka. [source: data/docs\\czym-jest-esport-1.md#chunk-0]",
+      "answer": "Esport to dyscyplina sportowa w której uczestnicy rywalizują ze sobą w grach komputerowych lub gier wideo, podobnie jak tradycyjne sporty takie jak piłka nożna czy koszykówka. [source: data/docs\\czym-jest-esport-1.md#chunk-0]",
+      "keywords_precision": 1.0,
+      "keywords_recall": 1.0,
+      "keywords_f1": 1.0,
+      "judge_score": 1.0
+    }
+  ]
+}
