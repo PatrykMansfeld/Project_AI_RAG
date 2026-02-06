@@ -104,8 +104,8 @@ deactivate
 - `TOP_K`, `CHUNK_SIZE`, `CHUNK_OVERLAP`, `SCORE_THRESHOLD`, `FEW_SHOT`, `TEMPERATURE`
 - `EVAL_USE_JUDGE` = `true` | `false` (LLM-judge w ewaluacji)
 - `JUDGE_MODEL` (domyślnie taki jak `LLM_MODEL`)
-- `AUTO_LOG_QA` = `true` | `false` (automatyczny zapis pytań/odpowiedzi do QA JSONL)
-- `QA_LOG_PATH` (domyślnie `data/eval/qa.jsonl`)
+- `AUTO_LOG_QA` = `true` | `false` (automatyczny zapis pytań/odpowiedzi do QA JSONL; domyślnie `false`)
+- `QA_LOG_PATH` (domyślnie `data/eval/qa_log.jsonl`)
 
 ## Struktura Projektu
 
@@ -115,6 +115,7 @@ deactivate
 	- `config.py`, `utils.py`, `embeddings.py`, `vector_store.py`, `prompts.py`
 	- `rag_core.py` (RAG), `analysis.py`, `evaluator.py`, `generate.py`
 - `data/docs` — Twoje dokumenty
+- `data/docs/gen` — wygenerowane artykuły
 - `data/eval/qa.jsonl` — zestaw ewaluacyjny
 - `requirements.txt` — zależności
 

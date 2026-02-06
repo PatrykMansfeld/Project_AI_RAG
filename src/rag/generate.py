@@ -9,7 +9,7 @@ from .utils import slugify
 
 def generate_articles(cfg: Config, topic: str, count: int = 1, min_words: int = 400, style: str = "encyklopedyczny") -> List[str]:
     client = ollama.Client(host=cfg.ollama_host)
-    out_dir = cfg.data_dir
+    out_dir = os.path.join(cfg.data_dir, "gen")
     os.makedirs(out_dir, exist_ok=True)
     slug = slugify(topic)
     paths: List[str] = []

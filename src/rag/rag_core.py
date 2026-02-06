@@ -48,6 +48,10 @@ class SimpleRAG:
         # Ładuje pliki i dzieli na chunki
 
     def build(self):
+        # Reset indeksu przed przebudową
+        self.vs = VectorStore()
+        self.corpus_meta = []
+        self.bm25 = None
         chunk_texts, metas = self.load_and_chunk()
         if not chunk_texts:
             print("[index] Brak dokumentów do zindeksowania.")

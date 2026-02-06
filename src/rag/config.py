@@ -26,6 +26,6 @@ class Config:
     few_shot: bool = os.getenv("FEW_SHOT", "true").lower() == "true"
     # Parametry aplikacji z ENV
 
-    auto_log_qa: bool = os.getenv("AUTO_LOG_QA", "true").lower() == "true"
-    qa_log_path: str = os.getenv("QA_LOG_PATH", "data/eval/qa.jsonl")
+    auto_log_qa: bool = os.getenv("AUTO_LOG_QA", "false").lower() == "true"
+    qa_log_path: str = os.getenv("QA_LOG_PATH", "data/eval/qa_log.jsonl")
     # Automatyczny zapis rozmów do pliku QA (jsonl)
