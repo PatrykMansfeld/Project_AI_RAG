@@ -8,6 +8,7 @@ from rag.evaluator import evaluate
 from rag.generate import generate_articles
 
 # ---------------- CLI ----------------
+# Entry point for CLI subcommands.
 def main():
     parser = argparse.ArgumentParser("Simple RAG (Ollama)")
     sub = parser.add_subparsers(dest="cmd")
@@ -35,6 +36,7 @@ def main():
     elif args.cmd == "chat":
         rag = SimpleRAG(cfg)
         rag.build()
+        # Prosty tryb interaktywny w konsoli.
         print("Pytaj (Ctrl+C aby wyjść)")
         try:
             while True:
@@ -59,6 +61,6 @@ def main():
     else:
         parser.print_help()
 
-    # Router CLI do funkcji RAG
+# Router CLI do funkcji RAG.
 if __name__ == "__main__":
     main()

@@ -25,9 +25,10 @@ class SimpleRAG:
         self.vs = VectorStore()
         self.corpus_meta: List[Dict[str, Any]] = []
         self.bm25 = None
-        # Inicjalizacja klientów i pamięci
+        # Inicjalizacja klientów i pamięci.
 
     def load_and_chunk(self) -> Tuple[List[str], List[Dict[str, Any]]]:
+        # Ładuje pliki i dzieli je na chunki.
         texts: List[str] = []
         metas: List[Dict[str, Any]] = []
         for dirpath, _, filenames in os.walk(self.cfg.data_dir):
@@ -45,7 +46,6 @@ class SimpleRAG:
                 except Exception as e:
                     print(f"[loader] Nie udało się wczytać {path}: {e}")
         return texts, metas
-        # Ładuje pliki i dzieli na chunki
 
     def build(self):
         # Reset indeksu przed przebudową
@@ -63,9 +63,9 @@ class SimpleRAG:
             token_docs = [word_tokenize(m["text"]) for m in metas]
             self.bm25 = BM25Okapi(token_docs)
         print(f"[index] Zindeksowano {len(metas)} chunków.")
-        # Buduje indeks wektorowy/BM25
 
     def retrieve(self, question: str) -> List[Dict[str, Any]]:
+        # Zwraca najlepsze konteksty na podstawie retrievalu.
         if self.cfg.retrieval_method == "bm25" and self.bm25 is not None:
             scores = self.bm25.get_scores(word_tokenize(question))
             ranked = sorted(
@@ -78,7 +78,6 @@ class SimpleRAG:
         qv = self.embed.embed_query(question)
         ranked = self.vs.search(qv, top_k=self.cfg.top_k)
         return [m for (m, s) in ranked if s >= self.cfg.score_threshold]
-        # Zwraca najlepsze konteksty
 
     def answer(self, question: str) -> Dict[str, Any]:
         ctx = self.retrieve(question)
@@ -100,5 +99,5 @@ class SimpleRAG:
         if self.cfg.auto_log_qa:
             kws = extract_keywords(question + " " + ans)
             append_qa_log(self.cfg.qa_log_path, question, kws, ans)
+        # Buduje prompt z wariantami i guardrails.
         return {"answer": ans, "sources": ctx}
-        # Buduje prompt z wariantami i guardrails

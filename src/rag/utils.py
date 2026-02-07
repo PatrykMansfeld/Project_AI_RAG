@@ -9,11 +9,12 @@ STOPWORDS = {
 
 
 def word_tokenize(text: str) -> List[str]:
+    # Prosta tokenizacja słów.
     return [t.lower() for t in re.findall(r"\b\w+\b", text)]
-    # Prosta tokenizacja słów
 
 
 def chunk_text(text: str, chunk_size: int, chunk_overlap: int) -> List[str]:
+    # Dzieli tekst na zachodzące chunki.
     tokens = word_tokenize(text)
     if chunk_size <= 0:
         return [text]
@@ -27,17 +28,17 @@ def chunk_text(text: str, chunk_size: int, chunk_overlap: int) -> List[str]:
             break
         start = max(0, end - chunk_overlap)
     return chunks
-    # Dzieli tekst na zachodzące chunki
 
 
 def slugify(text: str) -> str:
+    # Bezpieczny identyfikator z tematu.
     s = re.sub(r"\s+", "-", text.strip().lower())
     s = re.sub(r"[^a-z0-9\-]", "", s)
     return s or "article"
-    # Bezpieczny identyfikator z tematu
 
 
 def extract_keywords(text: str, top_n: int = 8) -> List[str]:
+    # Proste wyłuskanie top słów kluczowych.
     tokens = word_tokenize(text)
     filtered = [t for t in tokens if t not in STOPWORDS and len(t) > 2]
     if not filtered:
@@ -45,10 +46,10 @@ def extract_keywords(text: str, top_n: int = 8) -> List[str]:
     from collections import Counter
     cnt = Counter(filtered)
     return [w for w, _ in cnt.most_common(top_n)]
-    # Proste wyłuskanie top słów kluczowych
 
 
 def append_qa_log(path: str, question: str, expected_keywords: Iterable[str], expected_answer: str) -> None:
+    # Dopisuje linię QA do pliku JSONL.
     os.makedirs(os.path.dirname(path), exist_ok=True)
     entry = {
         "question": question,
@@ -57,4 +58,3 @@ def append_qa_log(path: str, question: str, expected_keywords: Iterable[str], ex
     }
     with open(path, "a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-    # Dopisuje linię QA do pliku JSONL

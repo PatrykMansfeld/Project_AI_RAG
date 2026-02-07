@@ -8,6 +8,7 @@ from .utils import slugify
 
 
 def generate_articles(cfg: Config, topic: str, count: int = 1, min_words: int = 400, style: str = "encyklopedyczny") -> List[str]:
+    # Tworzy artykuły Markdown i zapisuje je na dysku.
     client = ollama.Client(host=cfg.ollama_host)
     out_dir = os.path.join(cfg.data_dir, "gen")
     os.makedirs(out_dir, exist_ok=True)
@@ -29,4 +30,3 @@ def generate_articles(cfg: Config, topic: str, count: int = 1, min_words: int = 
         paths.append(fpath)
         print(f"[generate] Zapisano: {fpath}")
     return paths
-    # Tworzy artykuły Markdown i zapisuje na dysku

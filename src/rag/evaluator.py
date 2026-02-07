@@ -8,6 +8,7 @@ from .rag_core import SimpleRAG
 
 
 def _keyword_metrics(answer: str, keywords: List[str]) -> Dict[str, float]:
+    # Prosty matching słów kluczowych w odpowiedzi.
     ans_low = answer.lower()
     found = [k for k in keywords if k.lower() in ans_low]
     prec = len(found) / len(keywords) if keywords else 0.0
@@ -17,6 +18,7 @@ def _keyword_metrics(answer: str, keywords: List[str]) -> Dict[str, float]:
 
 
 def _llm_judge(cfg: Config, question: str, expected_answer: Optional[str], expected_keywords: List[str], answer: str) -> float:
+    # LLM-judge zwraca 1 lub 0 na podstawie odpowiedzi referencyjnej.
     client = ollama.Client(host=cfg.ollama_host)
     kw_str = ", ".join(expected_keywords) if expected_keywords else "(brak)"
     ref = expected_answer or "(brak pełnej odpowiedzi referencyjnej)"
@@ -39,6 +41,7 @@ def _llm_judge(cfg: Config, question: str, expected_answer: Optional[str], expec
 
 
 def evaluate(cfg: Config, qa_path: str, out_path: Optional[str] = None) -> Dict[str, Any]:
+    # Uruchamia pełną ewaluację na pliku QA.
     rag = SimpleRAG(cfg)
     rag.build()
     items: List[Dict[str, Any]] = []
@@ -87,7 +90,7 @@ def evaluate(cfg: Config, qa_path: str, out_path: Optional[str] = None) -> Dict[
     }
 
     if out_path:
+        # Opcjonalny zapis raportu JSON.
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(summary, f, ensure_ascii=False, indent=2)
     return summary
-    # Rozszerzona ewaluacja: metryki słów kluczowych + opcjonalny LLM-judge + zapis raportu

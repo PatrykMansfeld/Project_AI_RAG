@@ -2,6 +2,7 @@ from typing import Any, Dict, List
 
 
 def system_prompt(mode: str = "strict", with_guardrails: bool = True) -> str:
+    # Buduje system prompt z opcjonalnymi guardrails.
     base = {
         "strict": "Jesteś rygorystycznym asystentem. Odpowiadaj tylko na podstawie kontekstu. Cytuj źródła w formacie [source: ścieżka#chunk-id]. Jeśli w kontekście brakuje informacji, powiedz wprost, że nie wiesz.",
         "friendly": "Jesteś uprzejmym asystentem. Odpowiadaj zwięźle na podstawie kontekstu i zawsze cytuj źródła [source: ścieżka#chunk-id]. Jeśli czegoś nie ma w kontekście, przyznaj to.",
@@ -14,18 +15,18 @@ def system_prompt(mode: str = "strict", with_guardrails: bool = True) -> str:
         "(2) Nie zmyślaj faktów ani źródeł. (3) Jeśli kontekst jest pusty lub za słaby, odpowiedz 'Brak informacji w dokumentach'."
     )
     return base + " " + rails
-    # Warianty system promptu + proste guardrails
 
 
 def few_shot() -> List[Dict[str, str]]:
+    # Krótkie przykłady few-shot do podbicia jakości odpowiedzi.
     return [
         {"role": "user", "content": "Co to jest RAG?"},
         {"role": "assistant", "content": "RAG łączy wyszukiwanie dokumentów z generowaniem. [source: sample.md#chunk-0]"},
     ]
-    # Przykłady do promptu
 
 
 def user_prompt(question: str, passages: List[Dict[str, Any]]) -> str:
+    # Składa kontekst i pytanie w jeden prompt użytkownika.
     parts = []
     for p in passages:
         parts.append(f"[source: {p['source']}#chunk-{p['chunk_id']}]\n{p['text']}")
@@ -36,23 +37,22 @@ def user_prompt(question: str, passages: List[Dict[str, Any]]) -> str:
         f"Pytanie: {question}\n\n"
         f"Udziel zwięzłej odpowiedzi po polsku."
     )
-    # Łączy konteksty, pytanie i przypomina o guardrails
 
 
 def article_system_prompt() -> str:
+    # Zasady generowania artykułu do korpusu.
     return (
         "Jesteś pomocnym autorem. Tworzysz samodzielne artykuły w Markdown po polsku, "
         "z czytelną strukturą (tytuł, sekcje, listy), bez zbędnego wodolejstwa. "
         "Unikaj halucynacji: gdy temat wymaga źródeł zewnętrznych, przedstaw neutralne, ogólne informacje."
     )
-    # Zasady generowania artykułu
 
 
 def build_article_prompt(topic: str, style: str, min_words: int) -> str:
+    # Szablon promptu artykułu.
     return (
         f"Napisz artykuł w Markdown o temacie: '{topic}'.\n"
         f"Styl: {style}.\n"
         f"Wymagania: min. {min_words} słów, tytuł (H1), 3–5 sekcji (H2/H3), listy punktowane, krótkie podsumowanie.\n"
         f"Nie dodawaj zewnętrznych cytatów ani linków — artykuł ma być samowystarczalny i stanie się dokumentem w korpusie RAG.\n"
     )
-    # Szablon promptu artykułu
