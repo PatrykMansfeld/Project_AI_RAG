@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 2) Modele Ollama (raz)
 
-```bat
+```batna
 ollama pull llama3.1
 ollama pull nomic-embed-text
 ```

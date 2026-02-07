@@ -24,7 +24,12 @@
       </div>
     </header>
 
-    <section class="grid">
+    <nav class="tabs" aria-label="Widoki">
+      <button class="tab-button is-active" data-tab="primary" type="button">Czat + Generowanie</button>
+      <button class="tab-button" data-tab="tools" type="button">Analiza</button>
+    </nav>
+
+    <section class="grid tab-panel is-active" data-tab-panel="primary">
       <article class="card chat">
         <div class="card-head">
           <div>
@@ -61,6 +66,31 @@
       <article class="card">
         <div class="card-head">
           <div>
+            <p class="label">Generowanie</p>
+            <h2>Artykuły do korpusu</h2>
+          </div>
+        </div>
+        <div class="form-grid">
+          <label for="genTopic">Temat</label>
+          <input id="genTopic" type="text" placeholder="np. Historia Krakowa" />
+          <label for="genCount">Liczba</label>
+          <input id="genCount" type="number" value="1" min="1" />
+          <label for="genMinWords">Min. słów</label>
+          <input id="genMinWords" type="number" value="400" min="100" />
+          <label for="genStyle">Styl</label>
+          <input id="genStyle" type="text" value="encyklopedyczny" />
+        </div>
+        <div class="actions">
+          <button id="genRun" class="primary">Generuj</button>
+        </div>
+        <ul id="genOut" class="list"></ul>
+      </article>
+    </section>
+
+    <section class="grid tab-panel" data-tab-panel="tools">
+      <article class="card">
+        <div class="card-head">
+          <div>
             <p class="label">Analiza</p>
             <h2>Statystyki korpusu</h2>
           </div>
@@ -89,29 +119,6 @@
           <button id="evalRun" class="primary">Uruchom ewaluację</button>
         </div>
         <pre id="evalOut" class="output"></pre>
-      </article>
-
-      <article class="card">
-        <div class="card-head">
-          <div>
-            <p class="label">Generowanie</p>
-            <h2>Artykuły do korpusu</h2>
-          </div>
-        </div>
-        <div class="form-grid">
-          <label for="genTopic">Temat</label>
-          <input id="genTopic" type="text" placeholder="np. Historia Krakowa" />
-          <label for="genCount">Liczba</label>
-          <input id="genCount" type="number" value="1" min="1" />
-          <label for="genMinWords">Min. słów</label>
-          <input id="genMinWords" type="number" value="400" min="100" />
-          <label for="genStyle">Styl</label>
-          <input id="genStyle" type="text" value="encyklopedyczny" />
-        </div>
-        <div class="actions">
-          <button id="genRun" class="primary">Generuj</button>
-        </div>
-        <ul id="genOut" class="list"></ul>
       </article>
     </section>
   </div>

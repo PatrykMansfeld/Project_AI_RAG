@@ -20,6 +20,8 @@ const genMinWordsEl = document.getElementById('genMinWords');
 const genStyleEl = document.getElementById('genStyle');
 const genRunBtn = document.getElementById('genRun');
 const genOut = document.getElementById('genOut');
+const tabButtons = Array.from(document.querySelectorAll('[data-tab]'));
+const tabPanels = Array.from(document.querySelectorAll('[data-tab-panel]'));
 
 function addMessage(text, cls) {
   const div = document.createElement('div');
@@ -163,3 +165,14 @@ genRunBtn.addEventListener('click', async () => {
   }
 });
 // Generowanie artykułów
+
+tabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    tabButtons.forEach(b => b.classList.toggle('is-active', b === btn));
+    tabPanels.forEach(panel => {
+      panel.classList.toggle('is-active', panel.dataset.tabPanel === target);
+    });
+  });
+});
+// Przełączanie zakładek

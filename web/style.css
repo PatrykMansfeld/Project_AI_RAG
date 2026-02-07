@@ -10,7 +10,13 @@ body { margin: 0; font-family: "Space Grotesk", "Inter", system-ui, -apple-syste
 .hero-actions { display: flex; align-items: center; gap: 12px; }
 .status { color: #a5b4fc; font-size: 14px; min-height: 20px; }
 
+.tabs { display: flex; gap: 10px; margin: 10px 0 16px; flex-wrap: wrap; }
+.tab-button { background: rgba(255, 255, 255, 0.06); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.12); padding: 10px 14px; border-radius: 999px; }
+.tab-button.is-active { background: linear-gradient(135deg, #6366f1, #0ea5e9); color: #0b1221; }
+
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+.grid.tab-panel { display: none; }
+.grid.tab-panel.is-active { display: grid; }
 .card { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 16px; backdrop-filter: blur(6px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
 .card-head h2 { margin: 2px 0 0; font-size: 20px; color: #e2e8f0; }
